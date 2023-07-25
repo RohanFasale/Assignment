@@ -1,0 +1,110 @@
+
+public class MealToServe {
+	public static void main(String[] args) {
+		
+		Paneer paneer = new Paneer();
+		paneer.eat();
+		paneer.eatVegMeal();
+		paneer.cookPaneer();
+		
+		System.out.println("--------------------------------");
+
+		Bhendi bhendi = new Bhendi();
+		bhendi.eat();
+		bhendi.eatVegMeal();
+		bhendi.cookBhendi();
+
+		System.out.println("--------------------------------");
+
+		Chicken chicken = new Chicken();
+		chicken.eat();
+		chicken.eatNonVegMeal();
+		chicken.cookChicken();
+
+		System.out.println("--------------------------------");
+
+		Fish fish = new Fish();
+		fish.eat();
+		fish.eatNonVegMeal();
+		fish.cookFish();
+
+		System.out.println("--------------------------------");
+	}
+}
+
+interface Meal
+{
+	void eat(); //by default method is public and abstract
+}
+
+abstract class VegMeal implements Meal
+{
+	abstract void eatVegMeal();
+}
+
+class Paneer extends VegMeal
+{
+	public void eat() {
+		System.out.println("Eating Meal...");
+	}
+	void eatVegMeal() {
+		System.out.println("Eating VegMeal...");
+
+	}
+	void cookPaneer(){
+		System.out.println("Paneer is cooking...");
+
+	}
+
+}
+
+
+class Bhendi extends VegMeal
+{
+	public void eat() {
+		System.out.println("Eating Meal...");
+	}
+	void eatVegMeal() {
+		System.out.println("Eating VegMeal...");
+
+	}
+	void cookBhendi(){
+		System.out.println("Bhendi is cooking...");
+	}
+}
+
+abstract class NonVegMeal implements Meal
+{
+	abstract void eatNonVegMeal();
+}
+
+class Chicken extends NonVegMeal
+{
+	public void eat() {
+		System.out.println("Eating meal...");
+	}
+	void eatNonVegMeal() {
+		System.out.println("Eating Non Veg Meal...");
+	}
+	void cookChicken(){
+		System.out.println("Chicken is Cooking...");
+	}
+}
+
+class Fish extends NonVegMeal
+{
+	public void eat() {
+		System.out.println("Eating meal...");
+	}
+	void eatNonVegMeal() {
+		System.out.println("Eating Non Veg Meal...");
+	}
+	void cookFish(){
+		System.out.println("Fish is Cooking...");
+	}
+}
+
+
+
+
+
