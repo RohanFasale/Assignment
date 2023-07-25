@@ -2,71 +2,59 @@
 public class WashingMachineTEst {
 	public static void main(String[] args) {
 		
-		WashPowder washPowder = new WashPowder(100,"Nirma", "Front Load", true, 50.0f);
+		WashingPowder washPowder = new WashingPowder(100,"Nirma", "Front Load", true, 10.0f);
+		Electricity electricity = new Electricity("AC",18.0f,5,2,"Adani");
 		
-		Laundry laundry = new Laundry(5,30.0f,2.5f,2f,50f);
+		Cloth[] arr;
+		arr=new Cloth[1];
+		arr[0] = new Cloth("Synthetic","Black",600.0f,"Shirt",false);
 		
-		Water water = new Water("Normal",20,"25 degree celcius");
+		System.out.println("wash powder : "+washPowder); //toString is invoked
+		System.out.println("Electricity : "+electricity);
 		
-		WashingTub washTub = new WashingTub(990,"metal");
+		Laundry laundry = new Laundry();
+		Machine machine = new Machine();
 		
-		Electricity electricity = new Electricity("AC",220.0f,10,2,"Adani Electricity");
-		
-		Cloth cloth = new Cloth("Cotton", "Black",600f,"Shirt",true);
-		
-		WashingMachine washingMachine = new WashingMachine();
-		washingMachine.totalCostToWash(cloth,electricity,washPowder,laundry);
+		laundry = machine.wash(washPowder, electricity, arr);
+		System.out.println("Laundry : "+laundry);
 	}
 }
 
-class Machine {
+class Machine { //isA
 	
-}
-class WashingMachine extends Machine { //isA
-	private float clothWashCost;
-	private float electricityCost;
-	private float washPowderCost;
-	private float sumOfCwcEcWpc;
-	private float totalLaundryCost;
-	
-	
-	
-	void totalCostToWash(Cloth cloth,Electricity electricity,WashPowder washPowder,Laundry laundry)
-    {
-	   // System.out.println("yeeee");
-	   if(cloth.cost>=1000){
-	       clothWashCost=50f;
-	   }
-	   else{
-	       clothWashCost=30f;
-	   }
-	   
-	   electricityCost=electricity.costPerUnit * electricity.unitUsed;
-	   
-	   washPowderCost=washPowder.quantity * washPowder.price * 0.001;
-	   
-	   sumOfCwcEcWpc = clothWashCost + electricityCost + washPowderCost;
-	   
-	   totalLaundryCost = sumOfCwcEcWpc * laundry.numberOfCloths;
-	   
-	   System.out.println("Total Cost is : "+totalLaundryCost);
-	}
-    
-    
+		Laundry wash(WashingPowder washPowder, Electricity elect, Cloth[] cloth) {
+			
+			Laundry laundry = new Laundry();
+			
+			laundry.setNumberOfCloths(cloth.length);
+			laundry.setTimeRequired(laundry.getNumberOfCloths()*10);
+			laundry.setWaterUsed(laundry.getNumberOfCloths()*5);
+			laundry.setElectricityUsed(laundry.getTimeRequired()*2/60);
+			laundry.setCostOfWashingPowder(washPowder.getPrice());
+			laundry.setTotalCost(laundry.getElectricityUsed()+laundry.getCostOfWashingPowder()
+									+laundry.getWaterUsed()	+ laundry.getNumberOfCloths());
+			return laundry;
+		}
 }
 
 class Laundry {
 	private int numberOfCloths; //cloth.length
 	private float timeRequired;
+	private float totalCost ;// cloth.length * price per cloth
 	private float waterUsed;
 	private float electricityUsed;
 	private float costOfWashingPowder; //
 	
-	public Laundry(int numberOfCloths, float timeRequired, float waterUsed, float electricityUsed,
+	public Laundry() {
+		
+	};
+	
+	public Laundry(int numberOfCloths, float timeRequired, float totalCost, float waterUsed, float electricityUsed,
 			float costOfWashingPowder) {
 		super();
 		this.numberOfCloths = numberOfCloths;
 		this.timeRequired = timeRequired;
+		this.totalCost = totalCost;
 		this.waterUsed = waterUsed;
 		this.electricityUsed = electricityUsed;
 		this.costOfWashingPowder = costOfWashingPowder;
@@ -74,7 +62,8 @@ class Laundry {
 
 	@Override
 	public String toString() {
-		return "Laundry [numberOfCloths=" + numberOfCloths + ", timeRequired=" + timeRequired + "waterUsed=" + waterUsed + ", electricityUsed=" + electricityUsed
+		return "Laundry [numberOfCloths=" + numberOfCloths + ", timeRequired=" + timeRequired + ", totalCost="
+				+ totalCost + ", waterUsed=" + waterUsed + ", electricityUsed=" + electricityUsed
 				+ ", costOfWashingPowder=" + costOfWashingPowder + "]";
 	}
 
@@ -92,6 +81,14 @@ class Laundry {
 
 	public void setTimeRequired(float timeRequired) {
 		this.timeRequired = timeRequired;
+	}
+
+	public float getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(float totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	public float getWaterUsed() {
@@ -155,11 +152,9 @@ class WashingTub  extends Tub {
 	
 }
 
-class Powder {
-	
-}
 
-class WashPowder extends Powder { // isA
+
+class WashingPowder { // isA
 
 	private int quantity;
 	private String brand;
@@ -167,7 +162,7 @@ class WashPowder extends Powder { // isA
 	private boolean scented;
 	private float price;
 	
-	public WashPowder(int quantity, String brand, String type, boolean scented, float price) {
+	public WashingPowder(int quantity, String brand, String type, boolean scented, float price) {
 		super();
 		this.quantity = quantity;
 		this.brand = brand;
