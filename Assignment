@@ -1,0 +1,244 @@
+
+
+public class ServiceTest {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ApplyCarService acs1 = new ApplyCarService("Rohan","7720969417","Sports Car",1001);
+		ApplyCarService acs2 = new ApplyCarService("Shyam","9724753917","\tSedan",1002);
+		ApplyCarService acs3 = new ApplyCarService("Ram","8764993769","\t\tSUV",1003);
+		acs1.apply();
+		acs2.apply();
+		acs3.apply();
+		
+		System.out.println("================================================");
+
+		
+		CarServiceCentre csc1 = new CarServiceCentre(acs1.getVehicleType(),100);
+		CarServiceCentre csc2 = new CarServiceCentre(acs2.getVehicleType(),100);
+		CarServiceCentre csc3 = new CarServiceCentre(acs3.getVehicleType(),100);
+		
+		Payment payment1 = new Payment("Cash","784593028345",acs1);
+		Payment payment2 = new Payment("Online","398729384534",acs2);
+		Payment payment3 = new Payment("Check","3208384729736",acs3);
+		
+		try {
+		csc1.repair(payment1);
+		}catch(LessLabourException ex1) {
+			System.out.println(ex1);
+		}catch(ShortageToolsException ex2) {
+			System.out.println(ex2);
+		}
+		
+		try {
+			csc2.repair(payment2);
+			}catch(LessLabourException ex1) {
+				System.out.println(ex1);
+			}catch(ShortageToolsException ex2) {
+				System.out.println(ex2);
+		}
+		
+		try {
+			csc3.repair(payment3);
+			}catch(LessLabourException ex1) {
+				System.out.println(ex1);
+			}catch(ShortageToolsException ex2) {
+				System.out.println(ex2);
+		}
+		
+		System.out.println("================================================");
+
+		
+		csc1.start();
+		csc2.start();
+		csc3.start();
+		
+		try {
+			csc1.join(); 
+			csc2.join();
+			csc3.join();
+		}catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("================================================");
+		
+		System.out.println("Car servicing is done!!!!");
+		
+	}
+
+}
+
+class LessLabourException extends RuntimeException{
+	LessLabourException(String msg){
+		super(msg);
+	}
+}
+
+class ShortageToolsException extends RuntimeException{
+	ShortageToolsException(String msg){
+		super(msg);
+	}
+}
+
+class ApplyCarService {
+	private String name;
+	private String mobNumber;
+	private String vehicleType;
+	private int serviceNumber;
+	
+	public ApplyCarService(String name, String mobNumber, String vehicleType, int serviceNumber) {
+		super();
+		this.name = name;
+		this.mobNumber = mobNumber;
+		this.vehicleType = vehicleType;
+		this.serviceNumber = serviceNumber;
+	}
+	
+	
+	public void apply() {
+		System.out.println(name + " Is Applying for a car service...");
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getMobNumber() {
+		return mobNumber;
+	}
+
+	public void setMobNumber(String mobNumber) {
+		this.mobNumber = mobNumber;
+	}
+
+	public String getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+
+	public int getserviceNumber() {
+		return serviceNumber;
+	}
+
+	public void setserviceNumber(int serviceNumber) {
+		this.serviceNumber = serviceNumber;
+	}
+	
+}
+
+interface Repair{
+	void repair(Payment payRef);
+}
+
+class CarServiceCentre  extends Thread implements Repair
+{
+	String carType;
+	int delay;
+	
+	public CarServiceCentre(String carType,int delay) {
+		this.carType=carType;
+		this.delay=delay;
+	}
+	
+	public void repair(Payment payRef) throws LessLabourException,ShortageToolsException {
+		
+		boolean labourShortage = false;
+		boolean toolsShortage = false;
+		
+		if(labourShortage == true) {
+			LessLabourException ex1 = new LessLabourException("The labours are less to complete repairing...");
+			throw ex1;
+		}
+		
+		if(toolsShortage == true) {
+			ShortageToolsException ex2 = new ShortageToolsException("The tools are less to complete repairing...");
+			throw ex2;
+		}
+		
+		System.out.println("Payment received from Account Number : "+payRef.getAccountNumber());
+		System.out.println("Car repairing will begin soon....");
+	}
+	
+	public void run() {
+		for(int i=1;i<30;i++) {
+			System.out.println(carType +" is repairing from "+i+" minutes");
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+interface Withdrawing {
+	void withdraw(float x);
+}
+interface Depositing {
+	void deposit(float x);
+}
+
+class BankAccount implements Withdrawing,Depositing{
+	int accountNumber;
+	String accountHolder;
+	float accountBalance;
+	
+	
+
+	public BankAccount(int accountNumber, String accountHolder, float accountBalance) {
+		super();
+		this.accountNumber = accountNumber;
+		this.accountHolder = accountHolder;
+		this.accountBalance = accountBalance;
+	}
+	public void withdraw(float amountToWithdraw) { 
+		accountBalance = accountBalance - amountToWithdraw;
+	}
+	public void deposit(float amountToDeposit) {
+		accountBalance = accountBalance + amountToDeposit;
+	}
+	@Override
+	public String toString() {
+		return "SavingsAccount [accountNumber=" + accountNumber + ", accountHolder=" + accountHolder
+				+ ", accountBalance=" + accountBalance + "]";
+	}
+}
+
+class FundTransferService //NIKHIL
+{
+	static void transferFunds(Withdrawing source, Depositing target, float amountToTransfer)
+	{
+		System.out.println("\nTRANSFERRING FUNDS....");
+		source.withdraw(amountToTransfer);
+		target.deposit(amountToTransfer);
+		System.out.println("FUNDS TRANSFERRED...\n");
+		
+	}
+}
+
+class Payment{
+	private String paymentType;
+	private String accountNumber;
+	
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+	
+	Payment(String paymentType,String accountNumber,ApplyCarService acsRef) {
+		this.paymentType=paymentType;
+		this.accountNumber=accountNumber;
+		System.out.println(acsRef.getName() + " Is making a "+paymentType+" Payment...");
+	}	
+	
+}
+
