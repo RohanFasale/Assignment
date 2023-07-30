@@ -1,9 +1,11 @@
-
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ServiceTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 		ApplyCarService acs1 = new ApplyCarService("Rohan","7720969417","Sports Car",1001);
 		ApplyCarService acs2 = new ApplyCarService("Shyam","9724753917","\tSedan",1002);
 		ApplyCarService acs3 = new ApplyCarService("Ram","8764993769","\t\tSUV",1003);
@@ -181,50 +183,6 @@ class CarServiceCentre  extends Thread implements Repair
 }
 
 
-interface Withdrawing {
-	void withdraw(float x);
-}
-interface Depositing {
-	void deposit(float x);
-}
-
-class BankAccount implements Withdrawing,Depositing{
-	int accountNumber;
-	String accountHolder;
-	float accountBalance;
-	
-	
-
-	public BankAccount(int accountNumber, String accountHolder, float accountBalance) {
-		super();
-		this.accountNumber = accountNumber;
-		this.accountHolder = accountHolder;
-		this.accountBalance = accountBalance;
-	}
-	public void withdraw(float amountToWithdraw) { 
-		accountBalance = accountBalance - amountToWithdraw;
-	}
-	public void deposit(float amountToDeposit) {
-		accountBalance = accountBalance + amountToDeposit;
-	}
-	@Override
-	public String toString() {
-		return "SavingsAccount [accountNumber=" + accountNumber + ", accountHolder=" + accountHolder
-				+ ", accountBalance=" + accountBalance + "]";
-	}
-}
-
-class FundTransferService //NIKHIL
-{
-	static void transferFunds(Withdrawing source, Depositing target, float amountToTransfer)
-	{
-		System.out.println("\nTRANSFERRING FUNDS....");
-		source.withdraw(amountToTransfer);
-		target.deposit(amountToTransfer);
-		System.out.println("FUNDS TRANSFERRED...\n");
-		
-	}
-}
 
 class Payment{
 	private String paymentType;
