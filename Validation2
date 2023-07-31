@@ -1,0 +1,61 @@
+/**
+ * 
+ */
+
+ function calculateAge(){
+	 var x = document.getElementById('udob').value;
+	 if(x==""){
+		 document.getElementById("dateErr").innerHTML="Date cannot be blank";
+					return false;
+	 }
+	 
+	 var today = new Date();
+	 var age = today.getFullYear() - x.getFullYear();
+     var monthDiff = today.getMonth() - x.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < x.getDate())) {
+                age--;
+            }
+            
+     if (age > 18) {
+                alert("Age is valid. You are above 18.");
+     } else {
+                return false;
+     }
+ }
+ 
+ function clearDateErrMsg() {
+				document.getElementById('dateErr').innerHTML="";
+
+}
+
+
+function clearPassErrMsg() {
+				document.getElementById('passErr').innerHTML="";
+
+}
+
+function passCheck(){
+	var y = document.getElementById('upass').value;
+	if(y==""){
+		document.getElementById("passErr").innerHTML="Password cannot be blank";
+		return false;
+	}
+	
+	if (y.length < 8) {
+		document.getElementById("passErr").innerHTML="Password cannot be less than 8 characters";
+                return false;
+    }
+    if (!/[A-Z]/.test(y)) {
+		document.getElementById("passErr").innerHTML="Password must have uppercase letter";
+                return false;
+    }
+	if (!/[a-z]/.test(y)) {
+		document.getElementById("passErr").innerHTML="Password must have lowercase letter";
+                return false;
+    }
+    if (!/[!@#$%^&*]/.test(y)) {
+		document.getElementById("passErr").innerHTML="Password must have alphanumeric value";
+                return false;
+    }
+    return true;
+}
