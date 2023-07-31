@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+	<title>Login here</title>
+	<link rel="stylesheet" href="Login3.css">
+</head>
+	
+	
+	<body>
+		<script src="Validation2.js">
+		</script>
+		<h1>My Airlines</h1>
+		<hr>
+		<h2>Register Here</h2>
+		
+		<form action="Login3.html">	
+			 
+					<label>Enter email</label> 
+			
+					<input  type=text id="ueamil">
+			
+					<label>Enter birthdate</label>
+		
+				 	<input  type=date onkeyup="clearDateErrMsg()"    id="udob"><span id="dateErr"></span><br>
+		
+					<label>Enter username</label> 
+				
+					<input  type=text     name="uname">
+		
+					<label>Enter password</label>
+			
+					 <input  type=password onkeyup="clearPassErrMsg()"  id="upass"><span id="passErr"></span><br>
+			
+				 Already Registered? Click <a href="Login3.html">Here</a></td>		
+			
+				 <button  onclick="return passCheck()" type="submit">Register</button> </td>	
+			
+						<button style="background-color: red">Clear</button>	
+		</form>
+		
+	</body>
+
+</html>
