@@ -7,3 +7,5 @@ DAO
 
 
 https://download.eclipse.org/releases/latest
+
+db connect https://github.com/vishhaldawane/SBITO4/blob/main/hsqldb.txt 
